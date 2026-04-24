@@ -1,0 +1,33 @@
+{
+  "name": "fullstack-backend-template",
+  "version": "1.0.0",
+  "description": "git template for back end node.js projects",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silverwolf1223/fullstack-backend-template.git"
+  },
+  "author": "SilvyIsMe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silverwolf1223/fullstack-backend-template/issues"
+  },
+  "homepage": "https://github.com/silverwolf1223/fullstack-backend-template#readme",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "prisma": "^6.19.3"
+  }
+}
