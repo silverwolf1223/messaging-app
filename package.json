@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "git template for back end node.js projects",
   "main": "app.js",
+  "type": "module",
   "scripts": {
+    "start": "node -r dotenv/config --watch app.js",
     "test": "test"
   },
   "repository": {
@@ -28,6 +30,6 @@
   },
   "devDependencies": {
     "dotenv": "^17.4.2",
-    "prisma": "^6.19.3"
+    "prisma": "^7.8.0"
   }
 }

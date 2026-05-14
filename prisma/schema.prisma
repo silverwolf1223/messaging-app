@@ -11,5 +11,34 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id String @id @default(ulid())
+  username String
+  email String?
+  password String
+  friends User[] @relation("userFriends")
+  friendOf User[] @relation("userFriends")
+  chats Chat[]
+  role Role @default(USER)
+}
+
+model Chat {
+  id String @id @default(ulid())
+  users User[]
+  messages Message[]
+}
+
+model Message {
+  id String @id @default(ulid())
+  text String
+  userId String
+  chat Chat @relation(fields: [chatId], references: [id])
+  chatId String
 }
