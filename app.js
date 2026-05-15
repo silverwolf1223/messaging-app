@@ -1,17 +1,25 @@
-const express = require('express');
+import express from 'express';
+import cors from 'cors';
 const app = express();
 
-const signUpRouter = require('./routes/signUpRouter.js')
-const logInRouter = require('./routes/logInRouter.js')
-const userRouter = require('./routes/userRouter.js')
-const chatRouter = require('./routes/chatRouter.js')
+import signUpRouter from './routes/signUpRouter.js';
+import logInRouter from './routes/logInRouter.js';
+// import userRouter from './routes/userRouter.js';
+// import chatRouter from './routes/chatRouter.js';
+
+app.use(cors());
 
 app.use(express.urlencoded({extended: true}));
 
-app.use('/sign-up', signUpRouter);
-app.use('/log-in', logInRouter);
-app.use('/user/:id', userRouter);
-app.use('/chat/:id', chatRouter);
+app.use(express.json());
+
+app.use('/signUp', signUpRouter);
+app.use('/logIn', logInRouter);
+// app.use('/user/:id', userRouter);
+// app.use('/chat/:id', chatRouter);
+app.use('/', (req, res, next) => {
+    next();
+})
 
 
 const port = process.env.PORT || 3000;

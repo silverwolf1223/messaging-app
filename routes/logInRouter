@@ -1,6 +1,0 @@
-const { Router } = require('express')
-const router = Router();
-
-    router.post('/') //authenticate user
-
-module.exports = router

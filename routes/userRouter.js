@@ -1,4 +1,4 @@
-const { Router } = require('express')
+import { Router } from 'express';
 const router = Router();
 
     router.get('/friends', ) //return friends list
@@ -9,4 +9,4 @@ const router = Router();
     router.post('/reject/:id', ) //reject friend requests
     router.get('/', ) //gethome
 
-module.exports = router
+export default router;

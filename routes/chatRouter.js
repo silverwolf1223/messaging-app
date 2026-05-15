@@ -1,4 +1,4 @@
-const { Router } = require('express')
+import { Router } from 'express';
 const router = Router();
 
     router.post('/message', ) //create new message *trigger live update*
@@ -8,4 +8,4 @@ const router = Router();
     router.get('/', ) //return chat to print
     router.post('/', ) //creates a new chat between 2 users
 
-module.exports = router
+export default router;
