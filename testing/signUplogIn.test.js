@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import signUp from '../routes/signUp.js'
+import signUp from '../routes/signUpRouter.js'
 import logIn from '../routes/logInRouter.js'
 
 const app = express();

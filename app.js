@@ -4,8 +4,8 @@ const app = express();
 
 import signUpRouter from './routes/signUpRouter.js';
 import logInRouter from './routes/logInRouter.js';
-// import userRouter from './routes/userRouter.js';
-// import chatRouter from './routes/chatRouter.js';
+//import userRouter from './routes/userRouter.js';
+//import chatRouter from './routes/chatRouter.js';
 
 app.use(cors());
 
