@@ -8,7 +8,7 @@ app.use(express.urlencoded({extended: false }));
 app.use('/signUp', signUp);
 app.use('/logIn', logIn)
 
-text("sign up post works", done => {
+text("sign up and log in post works", done => {
     request(app)
         .post('/signUp')
         .type('form')
@@ -19,7 +19,7 @@ text("sign up post works", done => {
                 .type('form')
                 .send({username: "Silvy", password: "asd"})
                 .expect("Content-Type", /json/)
-                .expect({ username: "Silvy"})
+                .expect({username: "Silvy"})
                 .expect(200, done);
         })
 })
