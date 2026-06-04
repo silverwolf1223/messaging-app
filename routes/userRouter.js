@@ -1,12 +1,14 @@
 import { Router } from 'express';
 const router = Router();
+import { getFriends, getHome, getSettings, updateSettings, getRequests, sendRequest, acceptRequest, removeRequest } from '../controllers/userController.js'
 
-    router.get('/friends', ) //return friends list
-    router.get('/settings', ) //return settings
-    router.get('/reqest', ) //return friend requests
-    router.post('/send/:id', ) //send friend requests
-    router.post('/accept/:id', ) //accept friend requests
-    router.post('/reject/:id', ) //reject friend requests
-    router.get('/', ) //gethome
+    router.get('/friends', getFriends) //return friends list
+    router.get('/settings', getSettings) //return settings
+    router.put('/settings', updateSettings) //post new settings
+    router.get('/reqests', getRequests) //return friend requests
+    router.post('/send', sendRequest) //send friend requests
+    router.post('/accept', acceptRequest) //accept friend requests
+    router.post('/reject', removeRequest) //reject friend requests
+    router.get('/', getHome) //gethome
 
 export default router;

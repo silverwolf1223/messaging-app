@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/signUp', signUpRouter);
 app.use('/logIn', logInRouter);
-// app.use('/user/:id', userRouter);
+app.use('/user/:id', userRouter);
 // app.use('/chat/:id', chatRouter);
 app.use('/', (req, res, next) => {
     next();

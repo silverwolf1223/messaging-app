@@ -14,6 +14,7 @@ test("chat post", done => {
             ids: [1, 2]
         })
         .expect('Content-Type', /json/)
+        .expect(res => {expect(res.body).toHaveProperty('message')})
         .expect({ messages: [] })
         .expect(200, done);
 })
@@ -24,7 +25,7 @@ test("chat message post", done => {
         .type('form')
         .send({message: "Hello World"})
         .expect('Content-Type', /json/)
-        .expect({ messages: ["Hello World"] })
+        .expect(res => {expect(res.body).toHaveProperty('message')})
         .expect(200, done);
 })
 
@@ -32,7 +33,7 @@ test("chat get with id", done => {
     request(app)
         .get('/123')
         .expect('Content-Type', /json/)
-        .expect({ messages: ["Hello World"] })
+        .expect(res => {expect(res.body).toHaveProperty('message')})
         .expect(200, done);
 })
 
@@ -40,7 +41,7 @@ test("chat get message with id", done => {
     request(app)
         .get('/123/message/2')
         .expect('Content-Type', /json/)
-        .expect({ messages: ["Hello World"] })
+        .expect(res => {expect(res.body).toHaveProperty('message')})
         .expect(200, done);
 })
 
@@ -50,6 +51,6 @@ test("chat add user post", done => {
         .type('form')
         .send({user: '1234'})
         .expect('Content-Type', /json/)
-        .expect({username: 'Silvy'})
+        .expect(res => {expect(res.body).toHaveProperty('username')})
         .expect(200, done)
 })

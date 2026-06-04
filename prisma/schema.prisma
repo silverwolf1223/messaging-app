@@ -20,13 +20,24 @@ enum Role {
 
 model User {
   id String @id @default(ulid())
-  username String
-  email String?
+  username String @unique
+  email String? @unique 
   password String
+  requests User[] @relation("friendRequests")
+  sentRequests User[] @relation("friendRequests")
   friends User[] @relation("userFriends")
   friendOf User[] @relation("userFriends")
+  settings Settings?
   chats Chat[]
   role Role @default(USER)
+}
+
+model Settings {
+  id String @id @default(ulid())
+  user User @relation(fields: [id], references: [id])
+  notifs Boolean
+  themeColor String
+  pfp String
 }
 
 model Chat {
