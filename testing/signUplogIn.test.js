@@ -18,12 +18,12 @@ test("sign up and log in", done => {
     request(app)
         .post('/signUp')
         .type('form')
-        .send({username: "Silvy", password: "1234", email:"dum1@gmail.com"})
+        .send({username: "Jack", password: "1234", email:"dum2@gmail.com"})
         .then(() => {
             request(app)
                 .post('/logIn')
                 .type('form')
-                .send({username: "Silvy", password: "1234"})
+                .send({username: "Jack", password: "1234"})
                 .expect("Content-Type", /json/)
                 .expect((res) => {
                   expect(res.body).toHaveProperty('username')
