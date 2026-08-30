@@ -1,14 +1,14 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 
 async function getHome(req, res){
     try{
-        console.log("aaaaa")
         const user = await prisma.user.findFirst({
-            where: { id: req.params.id },
+            where: { id: req.user.id },
             select: {
                 username: true,
                 friends: true,
-                chats: true
+                chats: true,
+                settings: true,
             }
         })
 
@@ -22,12 +22,11 @@ async function getHome(req, res){
 async function getFriends(req, res){
     try {
         const friends = await prisma.user.findFirst({
-            where: { id: req.params.id },
-            select: {
-                friends: true
-            }
+            where: { id: req.user.id },
+            include: { friends: true }
         })
 
+        console.log(friends)
         res.json(friends)
 
     } catch (err) {
@@ -38,7 +37,7 @@ async function getFriends(req, res){
 async function getSettings(req, res){
     try {
         const settings = await prisma.user.findFirst({
-            where: { id: req.params.id },
+            where: { id: req.user.id },
             select: {
                 settings: true
             }
@@ -61,10 +60,12 @@ async function updateSettings(req, res){
 
         await prisma.user.update({
             where: {
-                id: req.params.id
+                id: req.user.id
             },
             data: {
-                settings: newSettings
+                settings: {
+                    data: newSettings
+                }
             }
         })
 
@@ -77,16 +78,13 @@ async function updateSettings(req, res){
 
 async function getRequests(req, res){
     try {
-        const request = await prisma.user.findFirst({
+        const requests = await prisma.request.findMany({
             where: {
-                id: req.params.id
-            },
-            select: {
-                requests: true
+                toId: req.user.id
             }
         })
 
-        res.json(request)
+        res.json(requests)
 
     } catch (err) {
         console.log(err)
@@ -95,15 +93,10 @@ async function getRequests(req, res){
 
 async function sendRequest(req, res){
     try {
-        const user = await prisma.user.findFirst({where: {id: req.params.id}})
-        await prisma.user.update({
-            where: {id: req.body.id},
+        await prisma.request.create({
             data: {
-                requests: {
-                    push: {
-                        user
-                    }
-                }
+                toId: req.body.requestId,
+                fromId: req.user.id
             }
         })
 
@@ -116,17 +109,46 @@ async function sendRequest(req, res){
 
 async function acceptRequest(req, res){
     try {
-        const user = await prisma.user.findFirst({where: {id: req.body.id}})
-        await prisma.user.update({
-            where: {id: req.params.id},
+        const request = await prisma.request.findUnique({where: {id: req.body.id}})
+
+        const newChat = await prisma.chat.create({
             data: {
-                friends: {
-                    push: {
-                        user
-                    }
+                users: {
+                    connect: [
+                        { id: req.body.id },
+                        { id: request.toId }
+                    ]
                 }
             }
         })
+
+        await prisma.$transaction([
+            prisma.user.update({
+                where: {id: request.toId},
+                data: {
+                    friends: {
+                        connect: {
+                            id: request.fromId
+                        }
+                    }
+                }
+            }),
+
+            prisma.user.update({
+                where: {id: request.fromId},
+                data: {
+                    friends: {
+                        connect: {
+                            id: request.toId
+                        }
+                    }
+                }
+            }),
+
+            
+        ])
+
+        await prisma.request.delete({where: {id: req.body.id}})
 
         res.redirect(`/${req.params.id}/requests`)
 

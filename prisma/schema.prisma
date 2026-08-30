@@ -23,13 +23,17 @@ model User {
   username String @unique
   email String? @unique
   password String
-  requests User[] @relation("friendRequests")
-  sentRequests User[] @relation("friendRequests")
   friends User[] @relation("userFriends")
   friendOf User[] @relation("userFriends")
   settings Settings?
   chats Chat[]
   role Role @default(USER)
+}
+
+model Request {
+  id String @id @default(ulid())
+  toId String
+  fromId String
 }
 
 model Settings {

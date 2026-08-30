@@ -1,13 +1,15 @@
 import { prisma } from "../lib/prisma.js";
 import bcrypt from 'bcryptjs'
+import signJwt from '../authentication/signJwt.js'
 
 async function createUser(req, res){
     try{
-        const user = await prisma.user.findUnique({
-            where: { username: req.body.username }
+        let user = await prisma.user.findUnique({
+            where: { username: req.body.username },
         })
 
-        if(user != null){ 
+        if(user != null){
+            console.log("user already exists")
             res.end()
             return;
         }
@@ -22,7 +24,13 @@ async function createUser(req, res){
 
         await prisma.user.create({data: info})
 
-        res.end();
+        user = await prisma.user.findUnique({
+            where: { username: req.body.username },
+            select: { username: true , id: true}
+        })
+        
+        const jwt = signJwt(user)
+        res.json({ success: true, user: user, token: jwt.token, expiresIn: jwt.expires});
 
     } catch (err) {
         console.log(err)
